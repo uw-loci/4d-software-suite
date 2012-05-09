@@ -1,0 +1,285 @@
+{\rtf1\mac\ansicpg10000\cocoartf102
+{\fonttbl\f0\fnil\fcharset77 Geneva;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww9000\viewh9000\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs28 \cf0 "4D Wavelet Processor"\
+History Of Changes\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf0 1.38 c1/16/03\
+* Reduced the number of messages displayed during Compression and Decompression to decrease the processor load during those processes.   \
+\
+1.37 c1/14/03\
+* Bug fix - There was a potential race condition in CompParamsDlg where setVisible() was being called (and hence returning from the dialog) before getResults() was called.  This was fixed and other dialogs were checked for similar potential bugs.\
+* Window adapters were taken out of all dialogs.\
+* Calls to Thread.sleep() which originally allowed the GUI time to display opened images were causing problems on Windows OS.  These calls were removed from DataDecompressor.displayImage() and DataCompressor.displayImage().  OSX version of the application seems to have not been negatively affected, although (oddly enough) it lengthens the time necessary for image compression.\
+* Changed MessageCanvas object to MessagesCanvas.\
+* Changed MessagePanel object to MessagesPanel.\
+* Changed ThresholdEstimator.getUserProcessingInfo() to throw a CancelledException and not require a BooleanWrapper to be passed to it. \
+\
+1.36 c12/5/02\
+* Reduced the number of messages displayed during compression and decompression by eliminating constant calls to displayStatus().\
+* ScrollPane was causing many problems, so I changed MessagesPanel to be my own implementation with a ScrollBar.  Seems to be working much more smoothly.\
+* Changed some default values in Settings to avoid user error.\
+     last_timepoint from 0 to 1\
+     total_timepoints from 0 to 1\
+     first_plane from 0 to 1\
+     last_plane from 0 to 1\
+     total_planes from 0 to 1\
+     first_bitfile from 0 to 1\
+     last_bitfile from 0 to 1\
+     total_bitfiles from 0 to 1\
+     last_stack_image from 0 to 1\
+* Changed default values:     \
+     CompressionSettings.timepoints_per_block from 4 to 2\
+     CompressionSettings.focalplanes_per_block from 4 to 2\
+* Modified getUserProcessingInfo() to check for proper user input on Compression, Decompression, and Threshold Estimation using newly-created userInputValid() methods.\
+* Changed a few dialogs to throw CancelledExceptions instead of returning BooleanWrapper objects. \
+* Eliminated "compress from URL" option.  Not really necessary and it was causing problems on Windows machines with certain JDKs.  The utility of being able to compress a raw data set from the net is questionable.\
+\
+1.35 c09/27/02 \
+* Added ScrollPane to MessagesPanel and incorporated functionality to scroll back and view all previous messages.\
+* Added ability to clear messages from messages panel.\
+* Finished conversion of all panels and ImageWindow to GridBagLayout.\
+* Fixed bug - Old Mac layout code in setSize() was messing up GBL in 1.34.\
+* Created new object ClearMessagesPanel.\
+* Reorganized division of components into InfoPanel and StatusPanel.\
+\
+1.34 c09/20/02 \
+* Removed slider from GUI.\
+* Created new objects "StatusPanel", and "AbortPanel".\
+* Changed all panels and ImageWindow to GridBagLayout for cross-platform compatibility.\
+\
+1.33 c07/18/02 \
+* Fixed GUI errors when compressing from the web.\
+* Massaged code for doing web compression based on some errors reported by Narfi when using JDK >1.2.\
+* Worked on code to get BioRad 1024 (RGB) files to compress over the web.  This included adding the class URLBioradRGBReader.  Unfortunately, although all the code should work, the wavelet code itself does not support RGB compression, so this feature will have to wait until we can get the wavelet code, and the code to deliver RGB images to the compressor, up to speed.\
+\
+1.32 c07/09/02 \
+* Finished support for the ability to BioRad MRC 600 files to compress over the web.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0 Benchmarks:\
+\ul Online vs Local - \ulnone "\ul Big MRC 600" data set\ulnone  \
+    Num images: 60\
+    Image size: 768x512\
+    P: 2.0\
+    Threshold: 150\
+    Compression Ratio: ~100:1\
+    Chunks processed: 2x2\
+400 MHz G4 Macintosh, System 9.1\
+Compression from hard drive: 5m 49s\
+Compression over the web: 11m 02s\
+\
+\ul Performance - "Eye" data set\ulnone  \
+    Num images: 25\
+    Image size: 256x256 \
+    Compression Ratio: 100:1\
+    Chunks processed: 2x2\
+400 MHz G4 Macintosh, System 9.1\
+Threshold Estimation: 11 seconds\
+Compression: 24 seconds\
+Decompression: 21 seconds
+\fs24 \
+\
+1.31 c07/01/02 \
+* Added code to support Narfi's method wvFindThreshold.abort().  Users can now abort the Threshold Estimation procedure.\
+\
+1.30 c06/28/02 \
+* Finished work on getting files to decompress over the web.\
+* Began work on getting Bio-rad MRC600 files to compress over the web.  This included addition of URLBioradReader class.  Still some work to be done.\
+* Added support for FileNotFoundException in Decompressor object.\
+\
+1.29 c06/17/02 \
+* Finished work on getting files to compress over the web.  This included addition of class URLTiffReader.  Still some minor GUI updating glitches to fix, but it's working.\
+\
+1.28 c06/11/02 \
+* Added method NameUtils.findExtension() which records the filename extension in Settings.file_extension.  This was in response to a bug on case-sensitive platforms (e.g. Unix) where the files might be "Filename.pic", and the program was trying to open "Filename.PIC".  With this bug fix, other case combinations should also work.\
+\
+1.27 c06/05/02 \
+* Fixed several bugs which would cause exceptions to be thrown when user cancelled decompression or threshold estimation from the FileDialog, the DecompInfoDlog, or the ThreshEstDlog.  \
+\
+1.26 c06/03/02 \
+* Fixed several bugs which would cause exceptions to be thrown when user cancelled compression from the FileDialog, the CompInfoDlog, the ChannelsDlog, or the CompParamsDlog.  Introduced "CancelledException" class to handle these situations and allow the application to simply say "User cancelled" and reset itself instead of handling these situations like other Exceptions.  It's likely that this class technically should implement "Throwable" instead of extending "Exception", but I'll likely change that in a later release.\
+* Added support to notify user when OutOfMemoryErrors occur during all three processes.\
+\
+1.25 c05/09/02 \
+* Retooled the "GStrDlog" to look better with GridBagLayout.\
+* Changed TIFF output from image decompression such that a folder called "Extracted Files" is created in the folder with the source bitfiles.  Extracted TIFFs are then saved into this new folder.\
+* Fixed a bug that would result in the GUI continuing to be updated when a compression run was aborted.\
+*Created a second method NameUtils.countValidFilesInDirectory which takes a string parameter and makes sure valid files start with this string.  This is to fix a bug that cropped up if you had multiple valid data sets in one folder.  If this was the case, then the default number of timepoints to process would be incorrect.\
+\
+
+\fs20 Benchmarks\
+"Eye" data set \
+    Num images: 25\
+    Image size: 256x256 \
+    Compression Ratio: 100:1\
+    Chunks processed: 2x2\
+400 MHz G4 Macintosh, System 9.1\
+Threshold Estimation: 12 seconds\
+Compression: 24 seconds\
+Decompression: 20 seconds\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf0 \
+1.24 c05/07/02 \
+* Retooled the "AboutDialog" to look better with GridBagLayout.\
+* Retooled the "CompInfoDlog" to look better with GridBagLayout.\
+* Retooled the "ProcInfoDlog" to look better with GridBagLayout.\
+* Retooled the "CompParamsDlog" to look better with GridBagLayout.\
+* Retooled the "QuitDialog" to look better with GridBagLayout.\
+* Retooled the "ThreshEstDlog" to look better under GridBagLayout.\
+* Changed the "DecompInfoDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+* Changed the "ThreshEstDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+* Changed the "GStrDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+* Changed the "PutMsgDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0 Benchmarks\
+"Eye" data set \
+    Num images: 25\
+    Image size: 256x256 \
+    Compression Ratio: 100:1\
+    Chunks processed: 2x2\
+400 MHz G4 Macintosh, System 9.1\
+Threshold Estimation: 12 seconds\
+Compression: 24 seconds\
+Decompression: 20 seconds\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf0 \
+1.23 c05/01/02 \
+* Narfi modified the image creation method (specifically the ColorModel in getImage()) and now images are being displayed properly during decompression.\
+* Changed the "CompParamsDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+* Changed the "ProcInfoDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+* Changed the "CompInfoDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0 Benchmarks\
+"Eye" data set \
+    Num images: 25\
+    Image size: 256x256 \
+    Compression Ratio: 100:1\
+    Chunks processed: 2x2\
+400 MHz G4 Macintosh, System 9.1\
+Threshold Estimation: 12 seconds\
+Compression: 24 seconds\
+Decompression: 20 seconds\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf0 \
+1.22 c04/19/02 \
+* Changed the "ChannelsDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+* Changed the "AboutDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+* Changed the "QuitDlog" to GridBagLayout per Narfi's request to make dialog code more portable to Unix and Linux machines.\
+* Fixed a bug in the updating routine for DataDecompressor.  Same divide-by-zero error.\
+* Changed the priority of the updating thread from MAX_PRIORITY to NORM_PRIORITY.  Seems to have sped things up somewhat.\
+\
+1.21 c04/12/02 \
+* Removed some of the calls to Thread.yield() and replaced them with calls to Thread.sleep().  Not as slick, but apparently Thread.yield() was causing troubles in the Windows version of the application.\
+* Removed a bunch of unnecessary thread pausing.  Should speed things up.\
+* Fixed bugs in the updating routines for DataCompressor and Threshold Estimator.  There was a divide-by-zero exception that was being supressed causing no updating to happen. \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf0 1.20 c03/10/02 \
+* Added methods to make sure text in the input and output directory selection choice in ProcInfoDlog and DecompInfoDlog is sized both to fit vertically in the choice, and horizontally so that the maximum number of characters which will fit will be displayed.\
+* Added a method which would intelligently truncate directory pathnames for display in the directory selection choice in ProcInfoDlog and DecompInfoDlog.  This will make it easier for the user to navigate through directories.  Previously only the directory names themselves were being displayed.\
+\
+1.19 c02/25/02 \
+* Modified exception handling in all three processing objects to reduce problems both with exceptions not being reported, or exceptions being supressed and not passed along to objects higher up the heirarchy.  This was the root of many small bugs which had been reported by Narfi.  More work is still needed here.\
+* Changed many exception messages to be more informative.  e.g., Changed "Unable to open first timepoint" message to "Unable to open first bitfile" when thrown by a decompression processor.\
+* Changed default threshold to 150 from 1.0 to reduce long compression times if the user selected the default.\
+* The font in the input text fields of the dialogs is now set by a routine which selects the largest sized font which will still fit into the text field.  Previously, the default font was too large for the text fields when the application was run in a Unix envrionment.\
+* The text in the "About" dialog was reformatted and brought up to date.  Previously it was overflowing the dialog.\
+* Changed "Do you really want to quit?" to "Confirm Quit?" in the QuitDialog.\
+ *Fixed a bug which would abort processing if the user aborted a previous processing run.\
+* Fixed a bug that allowed the clock to keep ticking after the esitmate procedure had finished until the user clicked "OK" on the message box announcing the estimation had finished.  \
+\
+1.18 c01/29/02 \
+* Added a choice component and methods in the CompInfoDlog object which allow the user to navigate through folders on the disk and save compressed data sets to any folder on the disk.  Previously, compressed data was automatically saved to the same folder as the image source files from whence they came.\
+* Added a System.exit() call to windowClosing().  Prior to this, if you clicked on the "close" square for the window, there would no longer be any way to exit the application once the window was gone.\
+* Made 1 the initialization value (instead of zero) for the following variables:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0        Settings.last_plane\
+       Settings.current_plane\
+       Settings.total_planes\
+       Settings.last_bitfile\
+       Settings.current_bitfile\
+       Settings.total_bitfile\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf0 This was done because "planes to process" was being set to zero in the case of single image files in the CompInfoDlog.\
+\
+1.17 c01/23/02 \
+* Added a method which verifies all files which are to be processed are actually present.  If not, an exception is thrown and the user is notified.  This was in response to the problem where one file out of 100 would not be present and the entire application would crash. \
+* Moved many methods back to the NameUtils object and did some symantic rearranging.\
+\
+1.16 c01/17/02 \
+* Added a choice component and methods in the DecompInfoDlog object which allow the user to navigate through folders on the disk and save extracted data sets to any folder on the disk.  Previously, extracted data was automatically saved to the same folder as the bitfiles from whence they came.\
+\
+1.15 c01/09/02 \
+* Removed all Quicktime-based code to make the application available for Unix-based platforms.\
+* Added JPEGReader object to read and process jpeg images, since this was previously being done using Quicktime-based code.\
+\
+1.14 c12/14/01 \
+* Added support for wvFindThreshold.getMessage() which returns feedback to the user about the  initalization routine for threshold estimation.  Very important, as the software appeared to hang in this procedure during which the user would get no feedback for a long period of time.\
+\
+1.13 c11/14/01 \
+* Fixed a small bug which cropped up in Windows when displaying messages.  An array index exception was being thrown, so I changed the restoreMessages() method slightly to eliminate the source of the bug, and also to catch any future exceptions and squash them.\
+\
+1.12 c11/8/01 \
+* Added code to integrate Narfi's new threaded design for Threshold Estimating. \
+* Fixed a bug which showed an incorrect number of total images to process when doing threshold estimations.\
+\
+1.11 c10/16/01 \
+* Added code to save and restore preferences.  Preferences saved are:\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0 		Settings.input_directory\
+		Settings.output_directory\
+		Settings.desired_compression_ratio\
+    CompressionSettings.p\
+		CompressionSettings.threshold\
+		CompressionSettings.timepoints_per_block\
+		CompressionSettings.focalplanes_per_block\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf0 * Updated and revised code adding GUI-updating threads to DataCompressor, DataDecompressor, and ThresholdEstimator objects.  Things are now updating properly (more or less) during all three operations.\
+\
+1.10 c10/5/01 \
+* Massaging of the methods and objects for threshold estimating.  Finally got it working properly, and also did some testing of the compression/decompression stuff using a much smaller data set.\
+\
+1.9 c9/24/01 \
+* Added objects and support for the new wvFindThreshold and wvThresholdAndValue classes which allow the user to determine what threshold value will yield a specific compression ratio from their actual data (or get them as close to that ratio as possible).  Just a testing version to get things up and running.\
+\
+1.8 c6/28/01 \
+* Added a filter so that instead of all files in the directory being the default number in the user info dialog, only the files that match the filename syntax of the first opened timepoint are counted.\
+* Extensive reworking of DataCompressor and DataDecompressor objects, adding support for new methods in wvlib.jar:\
+     getBasefilename();\
+     getActualNumberOfFirstTimepoint();\
+     getNumberOfTimepointsCompressed();\
+     getNumberOfBitfilesCreated();\
+These methods keep track of data from the original compression which may be used to reconstruct the data set as it was compressed during decompression.  Also can be used during decompression to set defaults in DecompInfoDlog.\
+\
+* Massaged structure of same two objects to move many local variables out of processTimepoints() either to a new data structure "OriginalCompSettings", or to class variables.  Moved a lot of code out of processTimepoints() into their own methods.\
+\
+* Added some code modified from Narfi to give the user feedback on the compression ratio during image compression.\
+\
+1.7 c5/24/01 \
+* Changed GUI to support Narfi's latest round of changes to wv4DBWCompressor and wv4DBWDecompressor objects.\
+\
+1.6 and previous.  \
+* Don't know.  Wasn't keeping track.}

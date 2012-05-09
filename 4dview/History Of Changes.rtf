@@ -1,0 +1,141 @@
+{\rtf1\mac\ansicpg10000\cocoartf102
+{\fonttbl\f0\fnil\fcharset77 Geneva;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww16300\viewh13600\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs24 \cf0 HISTORY OF CHANGES - 4D Viewer Java\
+\
+1.78 c10/25/03\
+* Made changes such that the frame rate (in frames per second) specified by the user in the compression dialog is actually used to determine sample duration.  Thus the resulting movie can now be made to play back at any given speed.  This change should also be made to 4D Turnaround code!\
+\
+1.77 c10/22/03\
+* Added "Save Sub-Movie To Disk" command which allows the user to save a portion of a data set (with or without overlays) to the disk as a stand-alone Quicktime movie.\
+\
+1.76 c09/5/03\
+* Implemented a change whereby "playing" a movie would actually animate the frames separate from the QTJava Movie.play() mechanism.  This was the only way that movies could be played with the overlays being seen in each frame.  A separate thread was created to handle the animation.\
+\
+1.75 c08/9/03\
+* Lots of work to try and figure out why stand-alone OSX applications were not loading internal images.  This meant much streamlining of image loading methods, but the actual bug was related to the stand-alone shell itself and not any internal java code.\
+\
+1.74 c07/9/03\
+* Implemented "Select All" in the EditingCanvas.\
+* Fixed a bug where TextObjects would prompt for object comments before text was typed.\
+* Fixed several bugs with MovieCanvas and TiffCanvas layout by removing GridBagLayout and going to a relative layout scheme.\
+* Fixed a bug in EditingCanvas.doKeyPressed() which caused an exception to be thrown when a Text Object was created.\
+* Got rid of "Cancel" option in ObjCommentDlog and EdCommentDlog.  User now has to either OK the default value or enter new values before they can go on.\
+\
+1.73 c04/19/03\
+* Many, many changes to add support for "4D Tiff" data sets.\
+* Renamed MovieInfo class as DataInfo.\
+* Created "DataDisplayPanel" superclass as well as "MovieDisplayPanel" and "TiffDisplayPanel" subclasses.\
+* Added and adapted ImageReader and TiffReader classes and plugged in their functionality.\
+\
+1.72 c04/19/03\
+* Fixed a bug which did not allow the "Erase Overlay to Disk" feature to work.\
+* Added "Overlay Saved" message to EditingWindow.saveOverlay().\
+\
+1.71 c02/19/03\
+* Made some changes in response to a bug where OverlayOutput.getBeforeAndAfterData() would try to access a HeaderArray element -1 resulting in an ArrayIndexOutOfBoundsException.  I looked at the code, and theoretically it should be impossible for this to happen, but hopefully the changes I made will make it easier to understand why it's happening if it happens again.\
+\
+1.70 c01/23/03\
+* Changed Settings.saveToProperties() and Settings.loadFromProperties() to handle saving of variables with preferences file:\
+	Settings.overlay_forward_pref\
+	Settings.prompt_for_saves\
+	Settings.advance_to_next_frame\
+	Settings.auto_object_comments\
+* Fixed a bug in PositionPanel.actionPerformed() which caused the Panel to hold focus of all key events after use.\
+* Fixed some major bugs in EdCommentDlog and ObjCommentDlog which made it impossible to edit object descriptors or object comments.\
+* Made the default setting such that the user would be prompted for object comments whenever a new object was created.\
+* Made an option in the annotation preferences dialog so that the user can choose whether or not they should be prompted for object comments whenever a new object is created.  Added variable Settings.auto_object_comments to this end.\
+* Added CancelledException object to the project and began using it in appropriate places.  Some more inspection for other places to use it should be done.\
+* Removed WindowAdapter objects from EdCommentDlog and ObjCommentDlog objects.  Other dialogs should be similarly changed.\
+* Changed MessagesCanvas and MessagesPanel to the new and improved versions developed for WaveletProcessor.\
+* Added MovieCanvas.closeDataSet() method.\
+* Added MoviePanel.closeDataSet() method.\
+* Added MoviePanel.clearPanel() method.\
+* Added MovieWindow.handleLayout() method.\
+\
+ \
+1.69 c11/12/02\
+* The layout organization just wasn't working, so the TopPanel and InfoPanel objects were discarded in favor of laying out the MovieWindow using GBL and using the components directly.   There is a problem with the window being too wide, but other than that, things look much better and seem to be behaving better.\
+* Added ComponentListener to MoviePanel in the MovieWindow to keep track of changes in MoviePanel size.\
+* Got rid of ClearMessagesPanel in favor of making "Clear Messages" a menu item.\
+* Semantic change - MessagePanel renamed MessagesPanel\
+* Semantic change - MessageCanvas renamed MessagesCanvas\
+\
+1.68 c10/24/02\
+* Converted all object option dialogs to GridBagLayout for cross-platform compatibility.\
+* Removed almost all calls to printStackTrace().\
+\
+1.67 c10/21/02\
+* Many, many, many layout bugs worked on and eventually solved.  All were caused by component reorganization in v1.66.\
+\
+1.66 c10/14/02\
+* Added splash image which gets displayed on startup, and when no data set is open.\
+* Organized MovieCanvas and MovieSlider into MoviePanel object.\
+* Organized TitleCanvas, MessagesPanel, and ClearMessagesPanel into InfoPanel object.\
+* Organized MoviePanel, MoviePalette, and PositionPanel into TopPanel object.\
+* Organized MovieWindow into TopPanel and InfoPanel objects.\
+* Converted ObjOptionsDlog to GridBagLayout for cross-platform compatibility.\
+* Converted AnnotationPrefsDlog to GridBagLayout for cross-platform compatibility.\
+* Converted ObjCommentsDlog and EdComments Dlog to GridBagLayout for cross-platform compatibility.  \
+* Converted ObjCommentsDlog and EdCommentsDlog to use TextArea for display of object comments.  Much slicker layout.  User can type as much as they want, and scroll bars appear automatically.\
+* Converted FindTextDlog to GridBagLayout for cross-platform compatibility.\
+* Added hooks in MovieWindow for finding text in overlays.  Functionality not yet implemented.\
+* Fixed bug - nullPointerExceptions were occasionally being thrown in EditingCanvas.handleSelectedObjects();\
+* Converted SetScaleDlog to GridBagLayout for cross-platform compatibility.\
+* Changed layout and setup of SetScaleDlog to include a Choice object for the different units of measurement which works interactively with the TextField below it.\
+* Converted GStrDlog to GridBagLayout for cross-platform compatibility. \
+* Converted QuitDialog to GridBagLayout for cross-platform compatibility. \
+* Converted AboutDialog to GridBagLayout for cross-platform compatibility. \
+* Converted PutMsgDlog to GridBagLayout for cross-platform compatibility. \
+\
+1.65 c10/8/02 \
+* Added ScrollPane to MessagesPanel and incorporated functionality to scroll back and view all previous messages.\
+* Added ability to clear messages from messages panel.\
+* Conversion of MovieWindow to GridBagLayout.\
+* Created new object ClearMessagesPanel.\
+\
+1.64 - c 9/16/02\
+* Fixed bug - Frame and focal plane now displayed properly in Editing Window when position in the data set is altered.\
+\
+1.63 - c 9/11/02\
+* Fixed bug - "Bring All Objects Forward" option now functions properly.\
+\
+1.62 - c 9/9/02\
+* Fixed bug - Keystrokes in the EditingCanvas (e.g. "Delete" to delete selected objects) were not being received.  Passed along keystrokes received by the EditingWindow directly to the EditingCanvas and got rid of EditingCanvas' keyListener object.\
+* Fixed bug - ROI and measurements had become non-functional.  Restored functionality.  This involved a great deal of restructuring and beefing-up of ROI-related methods.\
+* Semantic change - added setupMovieSlider() method to MoviePanel.\
+\
+1.61 - c 8/29/02\
+* Fixed bug - Keystrokes in the Editing Window did not navigate the data set.\
+* Fixed bug - OverlayStatusPanel was being resized improperly by GridBagLayout.  Over-riding getPreferredSize() to return proper size was the fix.\
+* Funcionality change - Changed EditingPanel to GridBagLayout for cross-platform compatibility.\
+* Funcionality change - Changed EditingWindow to GridBagLayout for cross-platform compatibility.\
+* Functionality change - copyImageToEditingWindow() now does only that.  Split off additional functionality into copyObjectsToEditingWindow() method.\
+* Functionality change - HeaderArray is now a global variable, which saves on having to shuttle it back and forth between the MovieWindow and the EditingWindow.\
+* Semantic change - ObjectArray.addNewObjectToArray() changed to ObjectArray.addObject().\
+\
+1.60 - c 8/12/02\
+* Functionality added - Colors of existing objects can now be edited by Control-Clicking on on object.\
+* Fixed bug - displaying an object's comments dialog would switch the OverlayStatusPanel to a green light.\
+* Fixed bug - if user changes an object's notes, the overlay status now changes to "dirty".\
+* Fixed bug - the image in the editing canvas was getting cut off.\
+* Fixed bug - position in the editing window position panel wasn't being set properly.\
+* Fixed bug - "Go To" in the editing window position panel didn't work.\
+\
+1.59 - c 7/20/02\
+* Added new object OverlayStatusPanel, which alerts a user as to whether or not an overlay has had changes made to it and, hence, needs to be saved.  Added all associated functionality.\
+*Added a PositionPanel to show frame and plane position to the Editing Window.\
+\
+1.58 - c 4/03/02\
+* Added a flashing cursor on the screen when text objects are being created in the Editing Window.\
+* Added a preference in the "Annotation Preferences" for advancing to the next frame when an overlay is saved.\
+\
+1.57 - c 3/26/02\
+* Added "Annotation Preferences" dialog and menu item.\
+* Added preferences and handling thereof for "Bring new overlay objects forward", and "Bring no overlay objects forward".\
+\
+1.56 - c 3/8/02\
+* Made change to "4D Viewer Java.properties" file giving an allocation of 24Mb upon startup.  Application was running out of memory.}

@@ -1,0 +1,1 @@
+class AbortedException extends Exception{	//***** This exception is can be thrown anywhere by the application if the user has	//***** aborted a procedure which is underway.	}// end of class AbortedException

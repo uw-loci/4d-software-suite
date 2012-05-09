@@ -1,0 +1,1 @@
+class CancelledException extends Exception{	//***** This exception is can be thrown anywhere by the application if the user has	//***** attempted to cancel a procedure which is underway.	}// end of class CancelledException
